@@ -1,0 +1,84 @@
+### Teste Admicional ###
+
+import sqlite3
+
+# Conectar ao banco de dados (ou criar se não existir)
+conn = sqlite3.connect('candidatos.db')
+cur = conn.cursor()
+
+# Criar a tabela
+cur.execute('''
+CREATE TABLE IF NOT EXISTS Candidatos (
+    ID INTEGER PRIMARY KEY,
+    Nome TEXT,
+    Idade INTEGER,
+    Genero TEXT,
+    Experiencia INTEGER,
+    Extroversao INTEGER,
+    Amabilidade INTEGER,
+    Conscienciosidade INTEGER,
+    Neuroticismo INTEGER,
+    Abertura INTEGER,
+    Pontuacao_Tecnica INTEGER,
+    Adaptabilidade INTEGER,
+    Trabalho_Equipe INTEGER,
+    Criatividade INTEGER,
+    Contratado TEXT
+)
+''')
+
+# Dados dos candidatos
+candidatos = [
+    (1, 'João Silva', 28, 'M', 5, 6, 8, 9, 3, 7, 8, 9, 8, 7, 'Sim'),
+    (2, 'Maria Souza', 34, 'F', 10, 5, 7, 8, 4, 6, 9, 8, 9, 6, 'Sim'),
+    (3, 'Pedro Costa', 22, 'M', 2, 7, 6, 7, 5, 8, 6, 7, 7, 8, 'Não'),
+    (4, 'Ana Lima', 30, 'F', 7, 8, 9, 9, 2, 7, 9, 9, 9, 7, 'Sim'),
+    (5, 'Lucas Rocha', 25, 'M', 3, 4, 5, 6, 6, 5, 7, 6, 6, 5, 'Não'),
+    (6, 'Carla Mendes', 29, 'F', 4, 7, 8, 8, 3, 8, 8, 8, 8, 8, 'Sim'),
+    (7, 'Rafael Gonçalves', 31, 'M', 6, 6, 7, 9, 4, 7, 9, 8, 9, 7, 'Sim'),
+    (8, 'Fernanda Alves', 27, 'F', 3, 5, 6, 7, 5, 6, 7, 7, 7, 6, 'Não'),
+    (9, 'Bruno Carvalho', 33, 'M', 8, 8, 9, 9, 2, 8, 9, 9, 9, 8, 'Sim'),
+    (10, 'Juliana Santos', 26, 'F', 2, 6, 7, 7, 4, 7, 7, 7, 7, 7, 'Não'),
+    (11, 'Gustavo Lima', 30, 'M', 5, 7, 8, 8, 3, 8, 8, 8, 8, 8, 'Sim'),
+    (12, 'Patrícia Rocha', 35, 'F', 12, 6, 9, 9, 3, 7, 9, 9, 9, 7, 'Sim'),
+    (13, 'Diego Martins', 24, 'M', 1, 5, 6, 6, 6, 6, 6, 6, 6, 6, 'Não'),
+    (14, 'Camila Ferreira', 28, 'F', 4, 7, 8, 8, 4, 8, 8, 8, 8, 8, 'Sim'),
+    (15, 'André Souza', 32, 'M', 7, 6, 7, 9, 3, 7, 9, 8, 9, 7, 'Sim'),
+    (16, 'Larissa Costa', 29, 'F', 3, 5, 6, 7, 5, 6, 7, 7, 7, 6, 'Não'),
+    (17, 'Thiago Oliveira', 27, 'M', 2, 6, 7, 7, 4, 7, 7, 7, 7, 7, 'Não'),
+    (18, 'Mariana Dias', 31, 'F', 6, 8, 9, 9, 2, 8, 9, 9, 9, 8, 'Sim'),
+    (19, 'Roberto Almeida', 36, 'M', 11, 7, 8, 9, 3, 7, 9, 9, 9, 7, 'Sim'),
+    (20, 'Vanessa Silva', 25, 'F', 2, 6, 7, 7, 5, 7, 7, 7, 7, 7, 'Não')
+]
+
+# Inserir os dados na tabela
+cur.executemany('''
+INSERT INTO Candidatos (ID, Nome, Idade, Genero, Experiencia, Extroversao, Amabilidade, Conscienciosidade, Neuroticismo, Abertura, Pontuacao_Tecnica, Adaptabilidade, Trabalho_Equipe, Criatividade, Contratado)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+''', candidatos)
+
+# Salvar (commit) as alterações
+conn.commit()
+
+# Fechar a conexão com o banco de dados
+conn.close()
+
+
+#
+#
+#
+
+# Conectar ao banco de dados
+conn = sqlite3.connect('candidatos.db')
+cur = conn.cursor()
+
+# Consultar todos os dados da tabela
+cur.execute('SELECT * FROM Candidatos')
+rows = cur.fetchall()
+
+# Exibir os dados
+for row in rows:
+    print(row)
+
+# Fechar a conexão
+conn.close()
