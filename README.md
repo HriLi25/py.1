@@ -1,4 +1,4 @@
-# py.1
+# Phyton for Everybody Act1
 python_skill_training
 ### Importar banco de dados do exercício ###
 open r'C:\Users\Wesley\Documents\mbox.txt')
