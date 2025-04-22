@@ -1,0 +1,52 @@
+import numpy as np
+import pandas as pd
+from scipy import stats
+
+# Passo 1: Gerar dados sintéticos
+np.random.seed(42)  # Reprodutibilidade
+
+# Grupo Controle (média = 6.5, desvio padrão = 1.2)
+grupo_controle = np.random.normal(loc=6.5, scale=1.2, size=30)
+
+# Grupo Tratamento (média = 7.5, desvio padrão = 1.2)
+grupo_tratamento = np.random.normal(loc=7.5, scale=1.2, size=30)
+
+# Criar DataFrame
+df = pd.DataFrame({
+    'Grupo': ['Controle']*30 + ['Tratamento']*30,
+    'Nota': np.concatenate([grupo_controle, grupo_tratamento])
+})
+
+# Salvar dados (opcional)
+df.to_csv('dados_estudo.csv', index=False)
+
+# Passo 2: Verificar normalidade (Shapiro-Wilk)
+normalidade_controle = stats.shapiro(grupo_controle)
+normalidade_tratamento = stats.shapiro(grupo_tratamento)
+print(f"Normalidade Controle: p={normalidade_controle.pvalue:.3f}")
+print(f"Normalidade Tratamento: p={normalidade_tratamento.pvalue:.3f}")
+
+# Passo 3: Verificar igualdade de variâncias (Levene)
+variancias = stats.levene(grupo_controle, grupo_tratamento)
+print(f"\nIgualdade de variâncias (Levene): p={variancias.pvalue:.3f}")
+
+# Passo 4: Teste t (independente, bicaudal)
+if variancias.pvalue > 0.05:
+    teste_t = stats.ttest_ind(grupo_controle, grupo_tratamento, equal_var=True)
+else:
+    teste_t = stats.ttest_ind(grupo_controle, grupo_tratamento, equal_var=False)
+
+print(f"\nTeste t: estatística={teste_t.statistic:.2f}, p-value={teste_t.pvalue:.4f}")
+
+# Efeito prático (Cohen's d)
+d = (np.mean(grupo_tratamento) - np.mean(grupo_controle)) / np.sqrt(
+    (np.std(grupo_controle, ddof=1)**2 + np.std(grupo_tratamento, ddof=1)**2) / 2
+)
+print(f"\nCohen's d: {d:.2f}")
+
+# Interpretação
+alpha = 0.05
+if teste_t.pvalue < alpha:
+    print("\nConclusão: Há diferença significativa entre os grupos (rejeitamos H0)!")
+else:
+    print("\nConclusão: Não há diferença significativa (não rejeitamos H0).")
