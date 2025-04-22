@@ -1,0 +1,35 @@
+### Exercício Pandas DataCamp ###
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Start coding here! Use as many cells as you like
+# criar variavel para filtrar apenas os filmes dos anos 90
+nineties_movies = netflix_df[
+    (netflix_df["type"] == "Movie") &
+    (netflix_df["release_year"] >= 1990) &
+    (netflix_df["release_year"] <= 1999)
+]
+print(nineties_movies.head())
+
+num_movies = nineties_movies.shape[0]
+print(f"Número de filmes lançados nos anos 1990: {num_movies}")
+
+title_movies = (nineties_movies["title"])
+print(f"Os titulos dos filmes da decada de 90 foram:  {title_movies}")
+
+# Contagem de filmes por país
+contagem_paises = nineties_movies["country"].value_counts().head(10)
+
+# Plotar os principais países
+plt.figure(figsize=(5, 5))
+sns.barplot(x=contagem_paises.index, y=contagem_paises.values, palette="Blues_d")
+plt.title("Países com maiores numeros de produção cinematografica da decada de 90")
+plt.xlabel("País")
+plt.ylabel("Número de Filmes")
+plt.xticks(rotation=45)
+plt.show()
+
+# lista de filmes americanos
+usa_movies = nineties_movies[nineties_movies["country"] == "United States"]
+print(f"Os filmes estadunidenses da decada de 90 foram: {usa_movies['title'].tolist()}")
