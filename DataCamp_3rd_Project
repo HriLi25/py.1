@@ -1,0 +1,31 @@
+import scipy.stats
+from scipy.stats import norm
+
+# Parâmetros do mercado atual
+mu_atual = 5000
+sigma_atual = 2000
+
+# Calculando P(X <= 1000) no mercado atual
+prob_menor_igual_1000_atual = norm.cdf(1000, mu_atual, sigma_atual)
+
+# Calculando P(X > 1000) no mercado atual
+prob_maior_1000_atual = 1 - prob_menor_igual_1000_atual
+In [2]:
+
+In [2]:
+# Parâmetros do mercado previsto
+mu_previsto = 6000
+sigma_previsto = 2600
+
+# Calculando P(X <= 1000) no mercado previsto
+prob_menor_igual_1000_previsto = norm.cdf(1000, mu_previsto, sigma_previsto)
+
+# Calculando P(X > 1000) no mercado previsto
+prob_maior_1000_previsto = 1 - prob_menor_igual_1000_previsto
+# Comparando as probabilidades
+if prob_maior_1000_atual > prob_maior_1000_previsto:
+    print("Amir tem um desempenho melhor no mercado atual.")
+elif prob_maior_1000_atual < prob_maior_1000_previsto:
+    print("Amir tem um desempenho melhor no mercado previsto.")
+else:
+    print("Amir tem o mesmo desempenho em ambos os mercados.")
